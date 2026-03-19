@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   knopki = {
     git = {
@@ -25,7 +25,19 @@
     };
   };
 
-  git-hooks.enable = true;
+  git-hooks = {
+    enable = true;
+    hooks = {
+      agentskills = {
+        enable = true;
+        name = "agentskills";
+        description = "Validate skills";
+        package = pkgs.uv;
+        entry = "uvx --from skills-ref agentskills validate";
+        files = "SKILL\\.md$";
+      };
+    };
+  };
   treefmt = {
     enable = true;
     config.programs.ruff-check.enable = true;
@@ -38,5 +50,11 @@
       enable = true;
       uv.enable = true;
     };
+  };
+
+  scripts = {
+    agentskills.exec = ''
+      exec uvx --from skills-ref agentskills $@
+    '';
   };
 }
