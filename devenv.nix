@@ -36,6 +36,9 @@
         entry = "uvx --from skills-ref agentskills validate";
         files = "SKILL\\.md$";
       };
+      lychee.settings.flags = ''
+        --exclude "mcp.grep.app"
+      '';
     };
   };
   treefmt = {
