@@ -16,10 +16,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: "read"
-    env:
-      UV_CACHE_DIR: /tmp/.uv-cache
-      XDG_CACHE_HOME: /tmp/.cache
-      XDG_DATA_HOME: /tmp/.local/share
     steps:
       - uses: actions/checkout@v6
       - uses: DeterminateSystems/nix-installer-action@v21
