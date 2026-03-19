@@ -2,11 +2,11 @@
 name: grep-app-cli
 description: "Search public GitHub code with the grep.app MCP CLI to find real implementation patterns, concrete API usage, regex-based code matches, and repository-scoped examples. Use when a task needs literal code search rather than documentation search, especially to verify how libraries, frameworks, config files, or language features are used in real projects."
 license: MIT
-compatibility: Requires uvx and access to the internet
-allowed-tools: Bash(./scripts/grep-app-mcp.py:*) Bash(scripts/grep-app-mcp.py:*)
+compatibility: Requires uv and access to the internet
+allowed-tools: Bash(./scripts/grep-app-mcp:*) Bash(scripts/grep-app-mcp:*)
 metadata:
   author: knopki <knopki@duck.com>
-  version: "1.0.0"
+  version: "1.0.1"
   hermes:
     category: research
     complexity: intermediate
@@ -71,18 +71,18 @@ Resolve paths from the skill directory when invoking the bundled script.
 
 ```bash
 cd skills/grep-app-cli
-./scripts/grep-app-mcp.py list-tools
+./scripts/grep-app-mcp list-tools
 ```
 
 ```bash
 cd skills/grep-app-cli
-./scripts/grep-app-mcp.py call-tool searchGitHub --query "useState(" \
+./scripts/grep-app-mcp call-tool searchGitHub --query "useState(" \
   --language TSX --language TypeScript
 ```
 
 ```bash
 cd skills/grep-app-cli
-./scripts/grep-app-mcp.py call-tool searchGitHub --query "(?s)try \\{.*await" \
+./scripts/grep-app-mcp call-tool searchGitHub --query "(?s)try \\{.*await" \
   --use-regexp --language Python
 ```
 
