@@ -3,7 +3,7 @@ name: grep-app-cli
 description: "Search public GitHub code with the grep.app MCP CLI to find real implementation patterns, concrete API usage, regex-based code matches, and repository-scoped examples. Use when a task needs literal code search rather than documentation search, especially to verify how libraries, frameworks, config files, or language features are used in real projects."
 license: MIT
 compatibility: Requires uv and access to the internet
-allowed-tools: Bash(./scripts/grep-app-mcp:*) Bash(scripts/grep-app-mcp:*)
+allowed-tools: Bash(uv run --with fastmcp python ./scripts/grep-app-mcp.py:*)
 metadata:
   author: knopki <knopki@duck.com>
   version: "1.0.1"
@@ -71,19 +71,19 @@ Resolve paths from the skill directory when invoking the bundled script.
 
 ```bash
 cd skills/grep-app-cli
-./scripts/grep-app-mcp list-tools
+uv run --with fastmcp python ./scripts/grep-app-mcp.py list-tools
 ```
 
 ```bash
 cd skills/grep-app-cli
-./scripts/grep-app-mcp call-tool searchGitHub --query "useState(" \
-  --language TSX --language TypeScript
+uv run --with fastmcp python ./scripts/grep-app-mcp.py call-tool searchGitHub \
+  --query "useState(" --language TSX --language TypeScript
 ```
 
 ```bash
 cd skills/grep-app-cli
-./scripts/grep-app-mcp call-tool searchGitHub --query "(?s)try \\{.*await" \
-  --use-regexp --language Python
+uv run --with fastmcp python ./scripts/grep-app-mcp.py call-tool searchGitHub \
+  --query "(?s)try \\{.*await" --use-regexp --language Python
 ```
 
 ## Supported Operations
