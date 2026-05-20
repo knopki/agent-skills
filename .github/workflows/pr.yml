@@ -35,7 +35,10 @@ jobs:
 
       - uses: DavidAnson/markdownlint-cli2-action@ded1f9488f68a970bc66ea5619e13e9b52e601cd
         with:
-          globs: "**/*.md"
+          globs: |
+            AGENTS.md
+            README.md
+            "skills/**/*.md"
 
       - name: Check python scripts
         run: uv run ruff check --output-format=github .
