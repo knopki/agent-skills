@@ -10,3 +10,6 @@ devenv.local.yaml
 .pre-commit-config.yaml
 
 .ruff_cache
+.coverage
+__pycache__
+node_modules

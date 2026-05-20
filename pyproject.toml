@@ -10,6 +10,7 @@ dependencies = []
 dev = [
     "commitizen>=4.16.0",
     "pytest>=9.0.3",
+    "pytest-cov>=7.1.0",
     "ruff>=0.15.12",
     "skills-ref>=0.1.1",
     "zuban>=0.7.2",
@@ -22,10 +23,6 @@ line-length = 100
 [tool.ruff.lint]
 select = ["E", "F", "UP"]
 ignore = ["ERA001", "E501"]
-
-[tool.zuban]
-python_version = "3.13"
-files = ["skills/", "tests/"]
 
 [tool.uv]
 exclude-newer = "7 days"
