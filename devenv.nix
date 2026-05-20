@@ -33,7 +33,7 @@
         name = "agentskills";
         description = "Validate skills";
         package = pkgs.uv;
-        entry = "uvx --from skills-ref agentskills validate";
+        entry = "uv run agentskills validate";
         files = "SKILL\\.md$";
       };
       lychee.settings.flags = ''
@@ -51,13 +51,16 @@
     javascript.enable = true;
     python = {
       enable = true;
-      uv.enable = true;
+      uv = {
+        enable = true;
+        sync.enable = true;
+      };
     };
   };
 
   scripts = {
     agentskills.exec = ''
-      exec uvx --from skills-ref agentskills $@
+      exec uv run agentskills $@
     '';
   };
 }
