@@ -57,10 +57,4 @@
       };
     };
   };
-
-  scripts = {
-    agentskills.exec = ''
-      exec uv run agentskills $@
-    '';
-  };
 }
