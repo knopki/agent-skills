@@ -12,18 +12,33 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test:
+  lint:
+    name: Lint Code Base
     runs-on: ubuntu-latest
-    permissions:
-      contents: "read"
-    steps:
-      - uses: actions/checkout@v6
-      - uses: DeterminateSystems/nix-installer-action@v21
-      - uses: DeterminateSystems/magic-nix-cache-action@v13
-        with:
-          use-flakehub: "false"
-      - name: Install devenv.sh
-        run: nix profile add nixpkgs#devenv
 
-      - name: Build the devenv shell and run any pre-commit hooks
-        run: devenv test
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b
+
+      - name: Set up Python
+        run: uv python install
+
+      - name: Install the project
+        run: uv sync --locked --all-extras --dev
+
+      - name: Check skills
+        run: |
+          find "./skills" -mindepth 1 -maxdepth 1 -type d -exec uv run agentskills validate {} \;
+
+      - uses: DavidAnson/markdownlint-cli2-action@ded1f9488f68a970bc66ea5619e13e9b52e601cd
+        with:
+          globs: "**/*.md"
+
+      - name: Check python scripts
+        run: uv run ruff check --output-format=github .
+
+      - name: Check python types
+        run: uv run zuban check
