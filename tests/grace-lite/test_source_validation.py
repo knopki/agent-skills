@@ -6,7 +6,7 @@ sys.path.insert(
     0,
     str(Path(__file__).resolve().parents[2] / "skills" / "grace-lite" / "scripts"),
 )
-from grace_check import (
+from grace_check import (  # type: ignore[import-not-found]
     Findings,
     check_source,
     _find_governed_files,
