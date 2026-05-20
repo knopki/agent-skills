@@ -4,8 +4,8 @@ from pathlib import Path
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "skills" / "grace-lite" / "scripts"))
-from grace_check import main, init_template
-import grace_check
+from grace_check import main, init_template  # type: ignore[import-not-found]
+import grace_check  # type: ignore[import-not-found]
 
 _ORIGINAL_PROJECT_ROOT = grace_check.PROJECT_ROOT
 

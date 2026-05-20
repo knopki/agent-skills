@@ -5,7 +5,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "skills" / "grace-l
 
 import xml.etree.ElementTree as ET
 
-from grace_check import (
+from grace_check import (  # type: ignore[import-not-found]
     Findings,
     check_xml,
     _validate_structure,
