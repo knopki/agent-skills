@@ -191,21 +191,16 @@ class Findings:
 
 
 # START_BLOCK_VALIDATE_STRUCTURE
-def _validate_structure(tree: ET.ElementTree, findings: Findings) -> None:
-    root = tree.getroot()
+def _validate_structure(root: ET.Element, findings: Findings) -> None:
     if root.tag != "KnowledgeGraph":
-        findings.error(
-            "root-tag", f"Root element is <{root.tag}>, expected <KnowledgeGraph>"
-        )
+        findings.error("root-tag", f"Root element is <{root.tag}>, expected <KnowledgeGraph>")
         return
     projects = root.findall("Project")
     if not projects:
         findings.error("project-missing", "No <Project> element under <KnowledgeGraph>")
         return
     if len(projects) > 1:
-        findings.error(
-            "project-duplicate", f"Found {len(projects)} <Project> elements, expected 1"
-        )
+        findings.error("project-duplicate", f"Found {len(projects)} <Project> elements, expected 1")
     project = projects[0]
     _check_project_attrs(project, findings)
     _check_project_children(project, findings)
@@ -217,9 +212,7 @@ def _validate_structure(tree: ET.ElementTree, findings: Findings) -> None:
 def _check_project_attrs(project: ET.Element, findings: Findings) -> None:
     for attr in ("NAME", "VERSION"):
         if attr not in project.attrib:
-            findings.error(
-                "project-attr", f"<Project> missing required attribute '{attr}'"
-            )
+            findings.error("project-attr", f"<Project> missing required attribute '{attr}'")
     for child in ("keywords", "annotation"):
         if project.find(child) is None:
             findings.error("project-child", f"<Project> missing <{child}> child")
@@ -268,9 +261,7 @@ def _check_module_attrs(elem: ET.Element, findings: Findings) -> None:
         )
     for child_tag in ("purpose", "path", "depends"):
         if elem.find(child_tag) is None:
-            findings.error(
-                "module-child", f"{loc} missing <{child_tag}> child", location=loc
-            )
+            findings.error("module-child", f"{loc} missing <{child_tag}> child", location=loc)
     for tag in ("purpose", "path"):
         child = elem.find(tag)
         if child is not None and not (child.text or "").strip():
@@ -291,9 +282,7 @@ def _check_module_annotations(elem: ET.Element, findings: Findings) -> None:
     for ann in annotations:
         tag = ann.tag
         if tag in seen_ann:
-            findings.error(
-                "annotation-duplicate", f"{loc} duplicate <{tag}>", location=loc
-            )
+            findings.error("annotation-duplicate", f"{loc} duplicate <{tag}>", location=loc)
         seen_ann.add(tag)
         valid_prefix = any(tag.startswith(p) for p in VALID_ANNOTATION_PREFIXES)
         if not valid_prefix:
@@ -359,9 +348,7 @@ def _validate_data_flows(project: ET.Element, findings: Findings) -> None:
         seen[elem.tag] = seen.get(elem.tag, 0) + 1
         loc = f"<{elem.tag}>"
         if "NAME" not in elem.attrib:
-            findings.error(
-                "dataflow-attr", f"{loc} missing 'NAME' attribute", location=loc
-            )
+            findings.error("dataflow-attr", f"{loc} missing 'NAME' attribute", location=loc)
         _check_df_syntax(elem, loc, findings)
     # END_BLOCK_ITERATE_DATAFLOWS
     # START_BLOCK_CHECK_DUPLICATE_DFIDS
@@ -391,9 +378,7 @@ def _check_df_syntax(elem: ET.Element, loc: str, findings: Findings) -> None:
     stripped = re.sub(r"\bM-[A-Z][A-Z0-9-]*\b", "", text)
     stripped = stripped.replace("->", "").replace(";", "").replace("/", "").strip()
     if stripped:
-        findings.error(
-            "dataflow-syntax", f"{loc} unexpected tokens: '{stripped}'", location=loc
-        )
+        findings.error("dataflow-syntax", f"{loc} unexpected tokens: '{stripped}'", location=loc)
 
 
 # START_BLOCK_VALIDATE_CROSS_LINKS
@@ -405,20 +390,14 @@ def _validate_cross_links(project: ET.Element, findings: Findings) -> None:
         loc = "<CrossLink>"
         for attr in ("from", "to", "relation"):
             if attr not in elem.attrib:
-                findings.error(
-                    "crosslink-attr", f"<CrossLink> missing '{attr}'", location=loc
-                )
+                findings.error("crosslink-attr", f"<CrossLink> missing '{attr}'", location=loc)
         key = f"{elem.get('from', '')}:{elem.get('to', '')}:{elem.get('relation', '')}"
         if key in seen:
-            findings.warning(
-                "crosslink-duplicate", f"Duplicate CrossLink {key}", location=loc
-            )
+            findings.warning("crosslink-duplicate", f"Duplicate CrossLink {key}", location=loc)
         seen.add(key)
         relation = elem.get("relation", "")
         if relation and not relation.strip():
-            findings.warning(
-                "crosslink-relation", "<CrossLink> empty relation", location=loc
-            )
+            findings.warning("crosslink-relation", "<CrossLink> empty relation", location=loc)
 
 
 # END_BLOCK_VALIDATE_CROSS_LINKS
@@ -450,9 +429,7 @@ def _collect_module_ids(project: ET.Element) -> tuple[set[str], dict[str, list[s
 # INPUTS: { project: ET.Element, known_mids: set[str], findings: Findings }
 # OUTPUTS: { None }
 # END_CONTRACT: _check_depends_refs
-def _check_depends_refs(
-    project: ET.Element, known_mids: set[str], findings: Findings
-) -> None:
+def _check_depends_refs(project: ET.Element, known_mids: set[str], findings: Findings) -> None:
     for elem in project:
         if not elem.tag.startswith("M-"):
             continue
@@ -477,9 +454,7 @@ def _check_depends_refs(
 # INPUTS: { project: ET.Element, known_mids: set[str], findings: Findings }
 # OUTPUTS: { None }
 # END_CONTRACT: _check_crosslink_refs
-def _check_crosslink_refs(
-    project: ET.Element, known_mids: set[str], findings: Findings
-) -> None:
+def _check_crosslink_refs(project: ET.Element, known_mids: set[str], findings: Findings) -> None:
     for elem in project:
         if elem.tag != "CrossLink":
             continue
@@ -498,9 +473,7 @@ def _check_crosslink_refs(
 # INPUTS: { project: ET.Element, known_mids: set[str], findings: Findings }
 # OUTPUTS: { None }
 # END_CONTRACT: _check_dataflow_refs
-def _check_dataflow_refs(
-    project: ET.Element, known_mids: set[str], findings: Findings
-) -> None:
+def _check_dataflow_refs(project: ET.Element, known_mids: set[str], findings: Findings) -> None:
     for elem in project:
         if not elem.tag.startswith("DF-"):
             continue
@@ -534,9 +507,7 @@ def _check_path_existence(
 
 
 # START_BLOCK_VALIDATE_INTEGRITY
-def _validate_integrity(
-    project: ET.Element, findings: Findings, project_root: Path
-) -> None:
+def _validate_integrity(project: ET.Element, findings: Findings, project_root: Path) -> None:
     known_mids, module_paths = _collect_module_ids(project)
     # START_BLOCK_CHECK_REFS
     _check_depends_refs(project, known_mids, findings)
@@ -639,9 +610,7 @@ def _check_file_module_markers(
     if count > 1000:
         findings.error("module-size-hard", f"{count} lines (limit 1000)", location=loc)
     elif count > 500:
-        findings.warning(
-            "module-size-soft", f"{count} lines (soft limit 500)", location=loc
-        )
+        findings.warning("module-size-soft", f"{count} lines (soft limit 500)", location=loc)
 
 
 # --- Source: function contracts ---
@@ -693,8 +662,8 @@ def _check_file_func_contracts(
 # END_CONTRACT: _parse_func_contracts
 def _parse_func_contracts(
     lines: list[str],
-) -> tuple[dict[str, tuple[int, "int | None"]], list[str]]:
-    contracts: dict[str, tuple[int, "int | None"]] = {}
+) -> tuple[dict[str, tuple[int, int | None]], list[str]]:
+    contracts: dict[str, tuple[int, int | None]] = {}
     active: dict[str, int] = {}
     unpaired_end: list[str] = []
     for i, line in enumerate(lines):
@@ -763,7 +732,7 @@ def _find_func_end(lines: list[str], start: int) -> int:
 # END_CONTRACT: _check_func_sizes
 def _check_func_sizes(
     lines: list[str],
-    contracts: dict[str, tuple[int, "int | None"]],
+    contracts: dict[str, tuple[int, int | None]],
     loc: str,
     findings: Findings,
 ) -> None:
@@ -787,9 +756,7 @@ def _check_func_sizes(
                 continue
         size = fend - fstart
         if size > 60:
-            findings.warning(
-                "func-size", f"{name}: {size} lines (limit 60)", location=loc
-            )
+            findings.warning("func-size", f"{name}: {size} lines (limit 60)", location=loc)
 
 
 # --- Source: block markers ---
@@ -868,9 +835,7 @@ def _parse_module_contract(lines: list[str]) -> dict[str, str]:
 # INPUTS: { project_root: Path, xml_root: ET.Element, findings: Findings }
 # OUTPUTS: { None }
 # END_CONTRACT: _check_cross_references
-def _check_cross_references(
-    project_root: Path, xml_root: ET.Element, findings: Findings
-) -> None:
+def _check_cross_references(project_root: Path, xml_root: ET.Element, findings: Findings) -> None:
     project = xml_root.find("Project")
     if project is None:
         return
@@ -924,12 +889,11 @@ def check_xml(xml_path: Path, project_root: Path) -> list[dict]:
     try:
         tree = ET.parse(xml_path)
     except ET.ParseError as exc:
-        findings.error(
-            "xml-well-formed", f"XML parse error: {exc}", location=str(xml_path)
-        )
+        findings.error("xml-well-formed", f"XML parse error: {exc}", location=str(xml_path))
         return findings.to_json()
     # END_BLOCK_PARSE_XML
     root = tree.getroot()
+    assert root is not None  # guaranteed by successful ET.parse above
     if root.tag != "KnowledgeGraph":
         findings.error("root-tag", f"Root is <{root.tag}>, expected <KnowledgeGraph>")
         return findings.to_json()
@@ -937,7 +901,7 @@ def check_xml(xml_path: Path, project_root: Path) -> list[dict]:
     if project is None:
         findings.error("project-missing", "No <Project> under <KnowledgeGraph>")
         return findings.to_json()
-    _validate_structure(tree, findings)
+    _validate_structure(root, findings)
     _validate_modules(project, findings)
     _validate_data_flows(project, findings)
     _validate_cross_links(project, findings)
@@ -960,7 +924,7 @@ def check_source(project_root: Path, xml_path: Path) -> list[dict]:
     _check_source_modules(project_root, findings)
     _check_function_contracts(project_root, findings)
     _check_block_markers(project_root, findings)
-    xml_root: "ET.Element | None" = None
+    xml_root: ET.Element | None = None
     try:
         xml_root = ET.parse(xml_path).getroot() if xml_path.exists() else None
     except ET.ParseError:
@@ -1012,21 +976,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--init", action="store_true", help="Create knowledge-graph.xml from template"
     )
-    parser.add_argument(
-        "--check-xml", action="store_true", help="Validate knowledge-graph.xml"
-    )
-    parser.add_argument(
-        "--check-source", action="store_true", help="Check source markup"
-    )
-    parser.add_argument(
-        "--json", action="store_true", dest="json_output", help="JSON output"
-    )
-    parser.add_argument(
-        "--root", type=Path, default=None, help="Project root directory"
-    )
-    parser.add_argument(
-        "--path", type=Path, default=None, help="Explicit XML file path"
-    )
+    parser.add_argument("--check-xml", action="store_true", help="Validate knowledge-graph.xml")
+    parser.add_argument("--check-source", action="store_true", help="Check source markup")
+    parser.add_argument("--json", action="store_true", dest="json_output", help="JSON output")
+    parser.add_argument("--root", type=Path, default=None, help="Project root directory")
+    parser.add_argument("--path", type=Path, default=None, help="Explicit XML file path")
     args = parser.parse_args(argv)
 
     # START_BLOCK_RESOLVE_ROOT
