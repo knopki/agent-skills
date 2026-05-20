@@ -1,0 +1,31 @@
+[project]
+name = "agent-skills"
+version = "0.1.0"
+description = "agent-skills support scripts"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "commitizen>=4.16.0",
+    "pytest>=9.0.3",
+    "ruff>=0.15.12",
+    "skills-ref>=0.1.1",
+    "zuban>=0.7.2",
+]
+
+[tool.ruff]
+target-version = "py39"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "UP"]
+ignore = ["ERA001", "E501"]
+
+[tool.zuban]
+python_version = "3.13"
+files = ["skills/", "tests/"]
+
+[tool.uv]
+exclude-newer = "7 days"
