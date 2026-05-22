@@ -3,7 +3,7 @@
   GRACE-lite Knowledge Graph Template
   ====================================
   This file is the navigational code graph for the project.
-  See SKILL.md in the grace-lite skill directory for full rules.
+  See AGENTS.md (GRACE-lite section) for full rules.
 
   RULES (quick reference):
   ─────────────────────────
@@ -25,9 +25,9 @@
   8. <depends> values referencing M-IDs MUST be existing module tags.
   9. <path> values SHOULD point to real files relative to the project root.
   10. Keywords and annotations are concise navigation hints — do NOT duplicate
-     OpenSpec requirements here.
+      OpenSpec requirements here.
   11. Private helper details do NOT belong in this graph — only module
-     boundaries, public interfaces, and stable navigation anchors.
+      boundaries, public interfaces, and stable navigation anchors.
 -->
 <KnowledgeGraph>
   <Project NAME="project-name" VERSION="0.0.0">
