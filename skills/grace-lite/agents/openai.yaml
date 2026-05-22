@@ -1,4 +1,0 @@
-interface:
-  display_name: "GRACE-lite"
-  short_description: "GRACE-lite Knowledge Graph, Code Markup"
-  default_prompt: "GRACE-lite: partial reimplementation of GRACE framework. Knowldedge Graph, Code Markup, LDD, linter."

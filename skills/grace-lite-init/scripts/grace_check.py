@@ -3,7 +3,7 @@
 # VERSION: 0.5.0
 
 # START_MODULE_CONTRACT
-#   PURPOSE: Validate docs/knowledge-graph.xml and GRACE-lite source markup, create from template.
+#   PURPOSE: Validate docs/knowledge-graph.xml and GRACE-lite source markup.
 #   SCOPE: XML structural validation, source file markers, contract fields, function/block sizes,
 #           brace syntax, cross-references.
 #   DEPENDS: none
@@ -12,7 +12,6 @@
 #
 # START_MODULE_MAP
 #   main                           CLI entry point
-#   init_template                  Create knowledge-graph.xml from template
 #   check_xml                      Run all XML validation rules
 #   check_source                   Run all source markup validation rules
 #   _validate_structure            Root/project element checks
@@ -48,17 +47,15 @@
 # END_MODULE_MAP
 #
 # START_CHANGE_SUMMARY
-#   LAST_CHANGE: v0.5.0 - Portable skill version: auto-detect PROJECT_ROOT, --root flag,
-#                TEMPLATE_PATH from skill assets, Python 3.10+ compat.
-#   PREVIOUS_CHANGE: v0.4.0 - Extend _find_governed_files to scan .js/.css;
-#                    add _read_governed_file and _normalize_css_block.
+#   LAST_CHANGE: v0.5.1 - Removed --init/init_template (delegated to init_grace_lite.py).
+#   PREVIOUS_CHANGE: v0.5.0 - Portable skill version: auto-detect PROJECT_ROOT, --root flag,
+#                    TEMPLATE_PATH from skill assets, Python 3.10+ compat.
 # END_CHANGE_SUMMARY
 
 """GRACE-lite knowledge graph validator and source markup checker.
 
 Usage:
     python grace_check.py              # validate XML + source markup
-    python grace_check.py --init       # create graph from template if missing
     python grace_check.py --check-xml  # explicit XML validation
     python grace_check.py --check-source  # source markup checks
     python grace_check.py --json       # machine-readable JSON output
@@ -78,7 +75,6 @@ from pathlib import Path
 # --- Paths ---
 
 _SKILL_DIR = Path(__file__).resolve().parent.parent
-TEMPLATE_PATH = _SKILL_DIR / "assets" / "knowledge-graph.xml.template"
 _GRAPH_RELATIVE = Path("docs") / "knowledge-graph.xml"
 
 
@@ -857,24 +853,6 @@ def _check_cross_references(project_root: Path, xml_root: ET.Element, findings: 
 # --- Public API ---
 
 
-# START_CONTRACT: init_template
-# PURPOSE: Create docs/knowledge-graph.xml from the bundled template if it does not exist.
-# INPUTS: { xml_path: Path - target XML file path }
-# OUTPUTS: { int - 0 if created, 1 if already exists or template missing }
-# END_CONTRACT: init_template
-def init_template(xml_path: Path) -> int:
-    if xml_path.exists():
-        print(f"already exists: {xml_path}")
-        return 1
-    if not TEMPLATE_PATH.exists():
-        print(f"template not found: {TEMPLATE_PATH}", file=sys.stderr)
-        return 1
-    xml_path.parent.mkdir(parents=True, exist_ok=True)
-    xml_path.write_text(TEMPLATE_PATH.read_text(encoding="utf-8"), encoding="utf-8")
-    print(f"created: {xml_path}")
-    return 0
-
-
 # START_CONTRACT: check_xml
 # PURPOSE: Run all XML structural validation rules against the knowledge graph.
 # INPUTS: { xml_path: Path - path to knowledge-graph.xml }
@@ -965,16 +943,13 @@ def _report(results: list[dict], *, use_json: bool = False) -> int:
 
 
 # START_CONTRACT: main
-# PURPOSE: Parse CLI args, resolve project root, dispatch to init/check.
+# PURPOSE: Parse CLI args, resolve project root, dispatch checks.
 # INPUTS: { argv: list[str] | None }
 # OUTPUTS: { int - exit code: 0 success, 1 failure, 2 usage error }
 # END_CONTRACT: main
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="GRACE-lite knowledge graph validator", prog="grace_check"
-    )
-    parser.add_argument(
-        "--init", action="store_true", help="Create knowledge-graph.xml from template"
     )
     parser.add_argument("--check-xml", action="store_true", help="Validate knowledge-graph.xml")
     parser.add_argument("--check-source", action="store_true", help="Check source markup")
@@ -999,17 +974,14 @@ def main(argv: list[str] | None = None) -> int:
     # END_BLOCK_RESOLVE_XML_PATH
 
     # Default: run both XML and source checks
-    if not args.init and not args.check_xml and not args.check_source:
+    if not args.check_xml and not args.check_source:
         args.check_xml = True
         args.check_source = True
-
-    if args.init:
-        return init_template(xml_path)
 
     # START_BLOCK_MISSING_HINT
     if not xml_path.exists() and (args.check_xml or args.check_source):
         print(f"No knowledge-graph.xml found at {xml_path}", file=sys.stderr)
-        print("Run with --init to create one from template.", file=sys.stderr)
+        print("Run init_grace_lite.py to create one from template.", file=sys.stderr)
         print(file=sys.stderr)
     # END_BLOCK_MISSING_HINT
 
