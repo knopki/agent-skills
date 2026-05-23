@@ -96,6 +96,7 @@ def _detect_project_root() -> Path:
 
 
 PROJECT_ROOT = _detect_project_root()
+_SELF_PATH = Path(__file__).resolve()
 
 # --- Constants ---
 
@@ -529,6 +530,8 @@ def _find_governed_files(root: Path) -> list[Path]:
     for suffix in _GOVERNED_SUFFIXES:
         for p in root.rglob(f"*{suffix}"):
             if any(part in _SKIP_DIRS for part in p.parts):
+                continue
+            if p.resolve() == _SELF_PATH:
                 continue
             try:
                 text = p.read_text(encoding="utf-8")
