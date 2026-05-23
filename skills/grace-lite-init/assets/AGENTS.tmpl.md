@@ -145,6 +145,7 @@ Each governed module uses unique `M-{DOMAIN}` ID as XML tag:
 Required: `<purpose>`, `<path>`, `<depends>`. Optional: `<annotations>`.
 TYPE: `ENTRY_POINT` | `CORE_LOGIC` | `DATA_LAYER` | `UI_COMPONENT` |
 `UTILITY` | `INTEGRATION`. STATUS: `planned` → `partial` → `implemented`.
+Test modules stay out of graph.
 Annotation prefixes: `fn-`, `class-`, `type-`, `export-`, `const-`. Each
 MUST have PURPOSE attribute.
 
