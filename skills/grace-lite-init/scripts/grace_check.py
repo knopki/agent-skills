@@ -119,7 +119,7 @@ DFID_TAG_RE = re.compile(r"^DF-[A-Z][A-Z0-9-]*$")
 
 CONTRACT_START_RE = re.compile(r"^\s*#\s*START_CONTRACT:\s*(\w+)")
 CONTRACT_END_RE = re.compile(r"^\s*#\s*END_CONTRACT:\s*(\w+)")
-FUNC_DEF_RE = re.compile(r"^(?:async\s+)?def\s+(\w+)\s*\(")
+FUNC_DEF_RE = re.compile(r"^(\s*)(?:async\s+)?def\s+(\w+)\s*\(")
 SRC_BLOCK_START_RE = re.compile(r"^\s*#\s*START_BLOCK_(\w+)")
 SRC_BLOCK_END_RE = re.compile(r"^\s*#\s*END_BLOCK_(\w+)")
 _GOVERNED_SUFFIXES = (".py", ".js", ".css")
@@ -709,6 +709,7 @@ def _check_brace_syntax(
 # OUTPUTS: { int - first line index after function body }
 # END_CONTRACT: _find_func_end
 def _find_func_end(lines: list[str], start: int) -> int:
+    def_indent = len(lines[start]) - len(lines[start].lstrip())
     body_start = start + 1
     if not lines[start].rstrip().endswith(":"):
         while body_start < len(lines):
@@ -719,7 +720,10 @@ def _find_func_end(lines: list[str], start: int) -> int:
             body_start += 1
     for k in range(body_start, len(lines)):
         line = lines[k]
-        if line and not line[0].isspace() and line.strip() and not line.startswith("#"):
+        if not line.strip() or line.strip().startswith("#"):
+            continue
+        current_indent = len(line) - len(line.lstrip())
+        if current_indent <= def_indent:
             return k
     return len(lines)
 
@@ -735,12 +739,12 @@ def _check_func_sizes(
     loc: str,
     findings: Findings,
 ) -> None:
-    func_starts: dict[str, int] = {}
+    func_defs: list[tuple[str, int]] = []
     for i, line in enumerate(lines):
         m = FUNC_DEF_RE.match(line)
         if m:
-            func_starts[m.group(1)] = i
-    for name, fstart in func_starts.items():
+            func_defs.append((m.group(2), i))
+    for name, fstart in func_defs:
         fend = _find_func_end(lines, fstart)
         if name in contracts:
             cstart, cend = contracts[name]
