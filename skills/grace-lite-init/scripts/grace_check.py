@@ -119,7 +119,7 @@ DFID_TAG_RE = re.compile(r"^DF-[A-Z][A-Z0-9-]*$")
 
 CONTRACT_START_RE = re.compile(r"^\s*#\s*START_CONTRACT:\s*(\w+)")
 CONTRACT_END_RE = re.compile(r"^\s*#\s*END_CONTRACT:\s*(\w+)")
-FUNC_DEF_RE = re.compile(r"^def\s+(\w+)\s*\(")
+FUNC_DEF_RE = re.compile(r"^(?:async\s+)?def\s+(\w+)\s*\(")
 SRC_BLOCK_START_RE = re.compile(r"^\s*#\s*START_BLOCK_(\w+)")
 SRC_BLOCK_END_RE = re.compile(r"^\s*#\s*END_BLOCK_(\w+)")
 _GOVERNED_SUFFIXES = (".py", ".js", ".css")
