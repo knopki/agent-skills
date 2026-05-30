@@ -718,14 +718,17 @@ def _find_func_end(lines: list[str], start: int) -> int:
                 body_start += 1
                 break
             body_start += 1
+    last_body = body_start - 1
     for k in range(body_start, len(lines)):
         line = lines[k]
-        if not line.strip() or line.strip().startswith("#"):
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
             continue
         current_indent = len(line) - len(line.lstrip())
         if current_indent <= def_indent:
-            return k
-    return len(lines)
+            return last_body + 1
+        last_body = k
+    return last_body + 1
 
 
 # START_CONTRACT: _check_func_sizes
