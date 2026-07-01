@@ -3,7 +3,7 @@ revision = 3
 requires-python = ">=3.11"
 
 [options]
-exclude-newer = "2026-05-13T14:16:22.834804126Z"
+exclude-newer = "0001-01-01T00:00:00Z" # This has no effect and is included for backwards compatibility when using relative exclude-newer values.
 exclude-newer-span = "P7D"
 
 [[package]]
@@ -25,7 +25,7 @@ dev = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "commitizen", specifier = ">=4.16.0" },
+    { name = "commitizen", specifier = ">=4.16.4" },
     { name = "pytest", specifier = ">=9.0.3" },
     { name = "pytest-cov", specifier = ">=7.1.0" },
     { name = "ruff", specifier = ">=0.15.12" },
@@ -154,7 +154,7 @@ wheels = [
 
 [[package]]
 name = "commitizen"
-version = "4.16.0"
+version = "4.16.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "argcomplete" },
@@ -170,9 +170,9 @@ dependencies = [
     { name = "termcolor" },
     { name = "tomlkit" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d5/cd/61332a3232a1d16489a95dd76ae857f6a90a73d4f2dffd782ae243b18681/commitizen-4.16.0.tar.gz", hash = "sha256:bcf4f69b918533bed12668a4bada57f493377cae0123163c92d638f5b19c39ca", size = 65906, upload-time = "2026-05-12T04:11:02.666Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/50/8a/4fccfa29c95536ac6dc98dc09a676cc2bce60d72f68b8e280278c6674669/commitizen-4.16.4.tar.gz", hash = "sha256:bb2fda50da381979e308d4a443d349598de2487d9e40d2e4f55a1f115ca38a8c", size = 66771, upload-time = "2026-06-22T06:32:50.06Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ee/5d/4336cd66bca91d83b70d0f64a95301628cc9b889266fd52fed69307359ff/commitizen-4.16.0-py3-none-any.whl", hash = "sha256:bf239e8cc528480ea93175d0af96a58a83a2a78f17a5c9505521aa815952bdcd", size = 88016, upload-time = "2026-05-12T04:11:01.018Z" },
+    { url = "https://files.pythonhosted.org/packages/2f/8f/496168ab853b325f62075e78ceb611d975ffc58116e4fabcca17725ac53c/commitizen-4.16.4-py3-none-any.whl", hash = "sha256:054e957491e3c897226a631e5bbeca5f5db772ce23412a5d588a4d7b9bb0bbc2", size = 88933, upload-time = "2026-06-22T06:32:48.615Z" },
 ]
 
 [[package]]
