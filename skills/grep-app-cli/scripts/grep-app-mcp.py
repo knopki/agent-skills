@@ -171,9 +171,7 @@ async def get_prompt(
                 console.print(f"  {msg.content.text}")
             elif isinstance(msg.content, mcp.types.ImageContent):
                 size = len(msg.content.data) * 3 // 4
-                console.print(
-                    f"  [dim][Image: {msg.content.mimeType}, ~{size} bytes][/dim]"
-                )
+                console.print(f"  [dim][Image: {msg.content.mimeType}, ~{size} bytes][/dim]")
             else:
                 console.print(f"  {msg.content}")
             console.print()
@@ -201,9 +199,7 @@ async def searchGitHub(
     ] = False,
     useRegexp: Annotated[
         bool,
-        cyclopts.Parameter(
-            help="Whether to interpret the query as a regular expression"
-        ),
+        cyclopts.Parameter(help="Whether to interpret the query as a regular expression"),
     ] = False,
     repo: Annotated[
         str | None,
