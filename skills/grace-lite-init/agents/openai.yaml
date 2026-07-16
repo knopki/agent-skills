@@ -1,4 +1,0 @@
-interface:
-  display_name: "GRACE-lite-init skill"
-  short_description: "Bootstrap GRACE-lite"
-  default_prompt: "Use $grep-app-cli to find real public GitHub code examples for a specific API, pattern, or config fragment."

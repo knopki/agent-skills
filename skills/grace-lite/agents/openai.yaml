@@ -1,0 +1,4 @@
+interface:
+  display_name: "GRACE-lite"
+  short_description: "Unified GRACE-lite skill"
+  brand_color: "#4A90D9"

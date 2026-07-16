@@ -1,0 +1,11 @@
+// markdownlint-cli2 configuration
+// Template/placeholder files in skill assets contain long placeholder lines and
+// intentional frontmatter (not h1 first) — excluded from lint.
+{
+  "config": {
+    "default": true
+  },
+  "ignores": [
+    "skills/**/assets/**"
+  ]
+}

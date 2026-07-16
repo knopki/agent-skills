@@ -12,7 +12,7 @@ Agent Skills repository in Agent Skills format.
   - `.claude/skills/`
 - Setup virtual env via `uv`
 - Use `agentskills validate` to validate skills
-- Use `npx markdownlite-cli2 skills/**/*.md` to validate skill's markdown files
+- Use `npx markdownlint-cli2 skills/**/*.md` to validate skill's markdown files
 - Use `ruff`, `zuban`, `pytest` to lint/test skill's scripts
 
 - Skills are reusable and independent
