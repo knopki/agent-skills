@@ -1,0 +1,101 @@
+# region MODULE_CONTRACT
+# PURPOSE: [Describe the GOAL of the module — what business/operational need it fulfills, why.]
+# SCOPE:
+# - [Main functional areas covered by the module.]
+# - NOT: [What is out of scope]
+# INVARIANTS: [Condition/State that always holds]
+# USECASES:
+# - [Entity]: [Actor] => [Action] => [Goal]
+# DEPENDENCIES: [Non-trivial deps - USES API: ..., READS: ..., WRITES: ...]
+# RATIONALE:
+# - Q: [Why was it implemented this way?]
+#   A: [Justification, environmental constraints.]
+# KEYWORDS: [Comma-separated keywords for grep search]
+# endregion MODULE_CONTRACT
+---
+# region PLAY_webserver
+# PURPOSE: [Goal of the play and why — what it enables the user/agent to do.]
+- name: Configure webserver
+  hosts: webservers
+  become: true
+
+  # region VARS_defaults
+  # PURPOSE: [Describe the GOAL of these vars and why.]
+  vars:
+    nginx_port: 80
+    nginx_worker_processes: auto
+  # endregion VARS_defaults
+
+  # region TASK_pre_checks
+  # PURPOSE: [Validate prerequisites before applying changes.]
+  pre_tasks:
+    - name: Ensure OS family is supported
+      ansible.builtin.assert:
+        that: ansible_os_family == "Debian"
+        fail_msg: "Only Debian family is supported"
+  # endregion TASK_pre_checks
+
+  tasks:
+    # region TASK_install_nginx
+    # PURPOSE: [Install nginx package from upstream repository.]
+    # region BLOCK_repository Non-trivial repository setup block summary
+    # ... skip 10 lines
+    - name: Add nginx apt repository
+      ansible.builtin.apt_repository:
+        repo: "ppa:nginx/stable"
+        state: present
+      # block name + structured data via tags
+      tags: [repo, nginx]
+    # ... skip 10 lines
+    # endregion BLOCK_repository
+
+    - name: Install nginx package # trivial task — markup not needed
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+        update_cache: true
+
+    # region BLOCK_install_with_resilience Non-trivial install block with rescue/always
+    - name: Install and verify nginx
+      block:
+        - name: Ensure nginx is installed
+          ansible.builtin.apt:
+            name: nginx
+            state: present
+
+        - name: Ensure nginx binary is present
+          ansible.builtin.command: which nginx
+          register: nginx_bin
+          changed_when: false
+
+      rescue:
+        - name: Rollback on failure
+          ansible.builtin.debug:
+            msg: "Install failed, review apt state"
+
+      always:
+        - name: Report install attempt
+          ansible.builtin.debug:
+            msg: "Install attempt finished"
+    # endregion BLOCK_install_with_resilience
+    # endregion TASK_install_nginx
+
+    # region TASK_configure_nginx
+    # PURPOSE: [Render nginx config and reload on change.]
+    - name: Render nginx configuration
+      ansible.builtin.template:
+        src: nginx.conf.j2
+        mode: "0644"
+        dest: /etc/nginx/nginx.conf
+      notify: reload nginx
+    # endregion TASK_configure_nginx
+
+  # region HANDLER_reload_nginx
+  # PURPOSE: [Reload nginx only when config reports a change.]
+  handlers:
+    - name: reload nginx
+      ansible.builtin.service:
+        name: nginx
+        state: reloaded
+  # endregion HANDLER_reload_nginx
+# endregion PLAY_webserver
