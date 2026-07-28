@@ -1,0 +1,51 @@
+default_stages:
+  - pre-commit
+
+exclude: "(^uv.lock$)"
+
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-format
+        name: ruff format
+        description: Run ruff format
+        language: system
+        entry: uv run ruff format
+        pass_filenames: true
+        types: [python]
+
+      - id: ruff-ckeck
+        name: ruff check
+        description: Run ruff check
+        language: system
+        entry: uv run ruff check
+        pass_filenames: true
+        types: [python]
+
+      - id: zuban-check
+        name: zuban check
+        description: Run zuban check
+        entry: uv run zuban check
+        language: system
+        pass_filenames: true
+        types: [python]
+        exclude: |
+          (?x)^(
+            skills/grep-app-cli/scripts/grep-app-cli.py
+          )$
+
+      - id: tombi-format
+        name: tombi format
+        description: Run tombi format
+        language: system
+        entry: uv run tombi format
+        pass_filenames: true
+        types: [toml]
+
+      - id: mdlint-check
+        name: mdlint check
+        description: "Run 'mdlint check' for consistent, reliable Markdown linting."
+        entry: uv run mdlint check
+        language: system
+        types: [markdown]
+        args: []

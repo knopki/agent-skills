@@ -30,15 +30,10 @@ jobs:
         run: uv sync --locked --all-extras --dev
 
       - name: Check skills
-        run: |
-          find "./skills" -mindepth 1 -maxdepth 1 -type d -exec uv run agentskills validate {} \;
+        run: uv run agentskills-ci score --min-score 80 ./skills
 
-      - uses: DavidAnson/markdownlint-cli2-action@ded1f9488f68a970bc66ea5619e13e9b52e601cd
-        with:
-          globs: |
-            AGENTS.md
-            README.md
-            "skills/**/*.md"
+      - name: Markdown lint
+        run: uv run mdlint check
 
       - name: Check python scripts
         run: uv run ruff check --output-format=github .
