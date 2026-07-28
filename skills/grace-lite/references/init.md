@@ -30,7 +30,7 @@ for the project.
 
 - Read the selected templates to understand the markup.
 - If resuming: detect files that already contain GRACE regions (e.g. `region
-MODULE_CONTRACT`, etc) and treat them as done; continue the rest.
+  MODULE_CONTRACT`, etc) and treat them as done; continue the rest.
 - Build an ordered plan of which modules/files to mark up. Suggested order:
   entry points and core business logic first, then outward.
 - Decide markup depth per file using the proportional principle (full contract
@@ -43,11 +43,12 @@ For each file/module in the approved plan:
 
 1. Apply module markup first.
 2. Apply region-based markup per the matching template (`CLASS_*`, `METHOD_*`,
-   `FUNC_*`, `BLOCK_*`, etc) and the relevant annotations.
-3. Keep markup proportional — skip trivial helpers and accessors.
+  `FUNC_*`, `BLOCK_*`, etc) and the relevant annotations.
+3. Keep markup proportional — see **Principles** and **Common Pitfalls** in
+  `SKILL.md`.
 4. **When required intent is missing or ambiguous** — e.g. a module's `PURPOSE`,
-   `INVARIANTS`, or `SCOPE` cannot be inferred confidently from the code —
-   **stop and ask the user.** Do not invent business intent.
+  `INVARIANTS`, or `SCOPE` cannot be inferred confidently from the code —
+  **stop and ask the user** (see Common Pitfalls: inventing business intent).
 5. Prefer contract-first: settle the contract, then align the code.
 
 Continue until the plan is complete or the user pauses. The session is
