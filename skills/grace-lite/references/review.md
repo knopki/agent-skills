@@ -11,35 +11,11 @@ You validate that code and documentation maintain GRACE integrity:
 - `full-integrity`. Use after major refactors. Review the whole project. Goal:
   certify that the project is globally coherent again.
 
-## Review Checklist
+## What to check
 
-For each file in scope, verify:
-
-- [ ] MODULE_CONTRACT exists with PURPOSE and other required fields
-- [ ] Every important function/component has a CONTRACT (PURPOSE, etc)
-- [ ] region / endregion markers are paired
-- [ ] Block names are unique within the file
-- [ ] Blocks are reasonably sized for navigation
-- [ ] Block names describe WHAT, not HOW
-- [ ] Substantial test files use enough markup to stay navigable by future
-      agents
-
-For each module in scope, cross-reference:
-
-- [ ] names, PURPOSE fields, and block labels are semantically anchored enough
-      that a future worker can infer intent without guessing
-- [ ] The implementation stayed inside the approved write scope. Invariants are
-      met.
-
-For each scoped module, verify:
-
-- [ ] scoped test files match the verification entry and real module behavior
-- [ ] required log markers or trace anchors still exist and are stable
-- [ ] deterministic assertions are used where exact checks are possible
-- [ ] verification scenarios cover both success and failure behavior when the
-      module is important enough
-- [ ] verification evidence provided by execution actually matches the claimed
-      commands and changed files
+Use the **Verification Checklist** in `SKILL.md` for every file and module in
+scope. It covers file-level markup, cross-file semantic anchoring, and
+verification artifacts (test files, log markers, deterministic assertions).
 
 ## Review Rules
 

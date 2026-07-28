@@ -1,6 +1,6 @@
 ---
 name: grace-lite
-description: "GRACE semantic code markup. Use when the user asks about GRACE, asks to set up project, review. Triggers: GRACE init, GRACE review, or when code already contains #region MODULE_CONTRACT markers."
+description: "Use when the user asks about GRACE semantic code markup, asks to set up project, review. Triggers: GRACE init, GRACE review, or when code already contains #region MODULE_CONTRACT markers."
 license: MIT
 metadata:
   author: Sergei Korolev <knopki@duck.com>
@@ -8,6 +8,8 @@ metadata:
 ---
 
 # Graph-RAG Anchored Code Engineering, lite variant
+
+## Overview
 
 **GRACE** gives a project **semantic code markup** — region-based contracts and
 anchors that make code machine-navigable, documentation inside the code.
@@ -30,23 +32,21 @@ Also, GRACE methodology offers Log Driven Development as observable contracts.
 - Mark up all **public and non-trivial** code.
 - Expose public API explicitly via language features: `__all__` in Python,
   `export` in JS/TS, etc.
-- Do not mark up trivial code: private one-liners, getters/setters, obvious
-  operations.
-- Markup must be **proportional** — don't annotate every tiny detail.
-- Never include empty contract fields. If there's nothing meaningful to say,
-  omit the field.
+- Markup must be **proportional** to the code's complexity.
 - Python exception: if an entity is annotated by markup, it must always be
   wrapped in a region (unlike C#, where short top-level entities may use `///
-<purpose>` without `#region`).
+  <purpose>` without `#region`).
 - For exact comment syntax, refer to the template in
   `assets/_semantic_template_reference.<ext>`.
+
+See **Common Pitfalls** for the corresponding anti-patterns.
 
 ### Workflow
 
 1. **MODULE_CONTRACT first** — always write the module contract before any code.
-   It sets the boundary and purpose of the file.
+  It sets the boundary and purpose of the file.
 2. **Public contracts next** — define contracts for all public classes,
-   functions, and methods. Create stubs.
+  functions, and methods. Create stubs.
 3. **Implement** — write code inside the contracted regions.
 
 ### Region Types
@@ -126,14 +126,6 @@ set** — add your own types when the domain demands it.
 
 All domain-specific types require a `PURPOSE` field.
 
-### A Note on PURPOSE
-
-`PURPOSE` is the most important field. Do not confuse it with a description — it
-answers **why**, not **what**. A description says "this module handles user
-authentication"; a purpose says "this module ensures only verified users access
-protected resources." If you strip away the purpose, the code loses its reason
-to exist.
-
 ### Comment Syntax
 
 Exact syntax is in the templates at `assets/_semantic_template_reference.<ext>`.
@@ -183,3 +175,54 @@ These logs serve as **observable contracts** — they make internal behavior
 testable and debuggable without changing production logic. Structured data
 enables filtering, assertion, and tracing. This is especially critical in async
 applications where stack traces are insufficient.
+
+## Common Pitfalls
+
+- **Confusing `PURPOSE` with a description.** `PURPOSE` is the most important
+  field: it answers **why**, not **what**. A description says "this module
+  handles user authentication"; a purpose says "this module ensures only
+  verified users access protected resources." If you strip away the purpose,
+  the code loses its reason to exist.
+- **Annotating trivial code.** Don't wrap private one-liners, getters/setters,
+  or obvious operations. Markup must be proportional to complexity.
+- **Inventing business intent.** When `PURPOSE`, `INVARIANTS`, or `SCOPE`
+  cannot be inferred confidently from the code, stop and ask the user. Never
+  fabricate business intent.
+- **Including empty contract fields.** If there's nothing meaningful to say,
+  omit the field. Don't fill the template for completeness.
+- **Skipping or misplacing `MODULE_CONTRACT`.** Exactly one per file, at the
+  very top, before any code. Write it first.
+- **Unpaired or misnamed region/endregion markers.** Every opening marker
+  needs a matching closing marker with the same name.
+- **Duplicate or HOW-style block names.** Block names must be unique within
+  the file and describe WHAT, not HOW.
+- **Hiding the public API.** Expose it explicitly via language features
+  (`__all__`, `export`, ...), not just by convention.
+
+## Verification Checklist
+
+For each file:
+
+- [ ] `MODULE_CONTRACT` exists at the top with `PURPOSE` (and other required
+  fields for its type)
+- [ ] Every public/non-trivial entity has a contract with a meaningful
+  `PURPOSE`
+- [ ] region/endregion markers are paired and correctly named
+- [ ] Block names are unique within the file and describe WHAT, not HOW
+- [ ] No empty contract fields; trivial code is left unmarked
+- [ ] Public API is exposed explicitly (`__all__`, `export`, ...)
+- [ ] Markup depth is proportional to the file's complexity
+
+For each module (cross-file):
+
+- [ ] Names, `PURPOSE` fields, and block labels are anchored enough that intent
+  is inferable without guessing
+- [ ] Implementation stayed within the approved write scope; invariants hold
+
+For verification artifacts (when present):
+
+- [ ] Test files carry enough markup to stay navigable
+- [ ] Required log markers / trace anchors exist and are stable
+- [ ] Deterministic assertions are used where exact checks are possible
+- [ ] For important modules, both success and failure behavior are covered
+- [ ] Executed verification matches the claimed commands and changed files

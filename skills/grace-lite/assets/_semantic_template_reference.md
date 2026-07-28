@@ -3,8 +3,8 @@ title: "Example Document"
 description: "Module brief."
 license: MIT
 ---
-
 <!-- #region MODULE_CONTRACT -->
+
 <!-- PURPOSE: [Describe the GOAL of the document — what business/operational
      need it fulfills, why.]
 SCOPE:
@@ -64,6 +64,7 @@ Non-trivial big block summary.
 3. [Step 3]
 
 <!-- #endregion BLOCK_data_flow -->
+
 <!-- #endregion SECTION_architecture -->
 
 <!-- #region SECTION_usage -->
@@ -85,11 +86,12 @@ example-command --flag value
 ### API
 
 | Method | Endpoint | Description |
-| ------ | -------- | ----------- |
-| GET    | `/items` | List items  |
-| POST   | `/items` | Create item |
+| --- | --- | --- |
+| GET | `/items` | List items |
+| POST | `/items` | Create item |
 
 <!-- #endregion SUBSECTION_api -->
+
 <!-- #endregion SECTION_usage -->
 
 <!-- #region SECTION_appendix -->
@@ -113,4 +115,5 @@ example-command --flag value
 - [Reference 2](https://example.com/ref2)
 
 <!-- #endregion SUBSECTION_references -->
+
 <!-- #endregion SECTION_appendix -->

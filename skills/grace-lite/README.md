@@ -12,6 +12,6 @@ or **GRACE review** or ask questions about GRACE markup.
 ## References
 
 - Telegram channel of the author of the original methodology
-  <https://t.me/turboproject>
+  [https://t.me/turboproject](https://t.me/turboproject)
 - Another implementation of GRACE skills:
   [osovv/grace-marketplace](https://github.com/osovv/grace-marketplace)
