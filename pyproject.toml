@@ -9,7 +9,7 @@ dependencies = []
 [dependency-groups]
 dev = [
   "agentskills-ci>=0.1.2",
-  "commitizen>=4.16.0",
+  "commitizen>=4.16.5",
   "mdlint>=0.2.0",
   "prek>=0.4.10",
   "pytest>=9.0.3",
