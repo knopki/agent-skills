@@ -37,7 +37,7 @@ Also, GRACE methodology offers Log Driven Development as observable contracts.
   wrapped in a region (unlike C#, where short top-level entities may use `///
   <purpose>` without `#region`).
 - For exact comment syntax, refer to the template in
-  `assets/_semantic_template_reference.<ext>`.
+  `_semantic_template_reference.*` files in `assets` directory.
 
 See **Common Pitfalls** for the corresponding anti-patterns.
 
@@ -128,7 +128,7 @@ All domain-specific types require a `PURPOSE` field.
 
 ### Comment Syntax
 
-Exact syntax is in the templates at `assets/_semantic_template_reference.<ext>`.
+Exact syntax is in the templates at `_semantic_template_reference.*` (see `assets`).
 Summary:
 
 - **Python, Bash, Terraform, Ansible YAML**: `# region TYPE_name`,
