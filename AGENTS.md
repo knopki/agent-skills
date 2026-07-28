@@ -7,12 +7,16 @@ Agent Skills repository in Agent Skills format.
 ## How to use this repository
 
 - Skills are located at `skills/`
+
 - Agent-visible paths:
   - `.agents/skills/`
   - `.claude/skills/`
 - Setup virtual env via `uv`
-- Use `agentskills validate` to validate skills
-- Use `npx markdownlint-cli2 skills/**/*.md` to validate skill's markdown files
+
+- Use `uv run agentskills-ci score --min-score 80 ./skills` to validate skills
+
+- Use `uv run mdlint check skills/**/*.md` to validate skill's markdown files
+
 - Use `ruff`, `zuban`, `pytest` to lint/test skill's scripts
 
 - Skills are reusable and independent
@@ -59,9 +63,9 @@ When creating a skill:
   - "Output"
 - avoid duplication with existing skills
 - consult the Agent Skills references instead of duplicating their guidance here:
-  - Specification: <https://agentskills.io/specification>
-  - Optimizing descriptions: <https://agentskills.io/skill-creation/optimizing-descriptions>
-  - Best practices: <https://agentskills.io/skill-creation/best-practices>
+  - Specification: [https://agentskills.io/specification](https://agentskills.io/specification)
+  - Optimizing descriptions: [https://agentskills.io/skill-creation/optimizing-descriptions](https://agentskills.io/skill-creation/optimizing-descriptions)
+  - Best practices: [https://agentskills.io/skill-creation/best-practices](https://agentskills.io/skill-creation/best-practices)
 - use repository tooling where applicable:
   - git hooks for baseline checks
   - `agentskills` CLI from the dev environment

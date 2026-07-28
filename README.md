@@ -53,9 +53,9 @@ This repository follows the Agent Skills ecosystem rather than redefining it loc
 
 Contributor references:
 
-- Specification: <https://agentskills.io/specification>
-- Optimizing skill descriptions: <https://agentskills.io/skill-creation/optimizing-descriptions>
-- Best practices for skill creators: <https://agentskills.io/skill-creation/best-practices>
+- Specification: [https://agentskills.io/specification](https://agentskills.io/specification)
+- Optimizing skill descriptions: [https://agentskills.io/skill-creation/optimizing-descriptions](https://agentskills.io/skill-creation/optimizing-descriptions)
+- Best practices for skill creators: [https://agentskills.io/skill-creation/best-practices](https://agentskills.io/skill-creation/best-practices)
 
 Repository-specific rules live in `AGENTS.md`.
 
