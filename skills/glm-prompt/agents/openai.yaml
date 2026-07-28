@@ -1,0 +1,4 @@
+interface:
+  display_name: "GLM Prompting"
+  short_description: "Write effective prompts for GLM models"
+  brand_color: "#4A90D9"
