@@ -30,7 +30,7 @@ jobs:
         run: uv sync --locked --all-extras --dev
 
       - name: Check skills
-        run: uv run agentskills-ci score --min-score 80 ./skills
+        run: uv run agentskills-ci check --min-score 80 ./skills
 
       - name: Markdown lint
         run: uv run mdlint check
