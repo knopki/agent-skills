@@ -8,9 +8,9 @@ import json
 import sys
 from typing import Annotated
 
-import cyclopts
-import mcp.types
-from fastmcp import Client
+import cyclopts  # type: ignore[import-not-found]
+import mcp.types  # type: ignore[import-not-found]
+from fastmcp import Client  # type: ignore[import-not-found]
 from rich.console import Console
 
 # Modify this to change how the CLI connects to the MCP server.
