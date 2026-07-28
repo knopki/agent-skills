@@ -49,3 +49,11 @@ repos:
         language: system
         types: [markdown]
         args: []
+
+      - id: agentskills-ci
+        name: agentskills-ci
+        description: Run 'agentskills-ci score'
+        entry: uv run agentskills-ci check --min-score 80 ./skills
+        language: system
+        types: [markdown]
+        pass_filenames: false
