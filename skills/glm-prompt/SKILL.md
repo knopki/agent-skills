@@ -41,7 +41,7 @@ runtime is a GLM model. Concretely:
   prompt for GLM", "format this task for GLM".
 - You are composing the `prompt:` argument of a `task()` / subagent call that
   will run on a GLM model.
-- You are translating a vague user request into a clean DeepSeek task spec.
+- You are translating a vague user request into a clean GLM task spec.
 
 Do **not** trigger this skill for non-GLM models.
 
@@ -238,8 +238,8 @@ the interrogation questions; gather from the codebase/this conversation.
 
 Procedure:
 
-1. Read the target file(s) yourself (or via `codegraph_explore`/`read`).
-  Quote real paths and line ranges — never invent.
+1. Read the target file(s) yourself. Quote real paths and line ranges — never
+   invent.
 
 2. Identify the exact goal and the smallest effective change.
 
