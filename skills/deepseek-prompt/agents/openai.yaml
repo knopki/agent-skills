@@ -1,0 +1,4 @@
+interface:
+  display_name: "DeepSeek Prompting"
+  short_description: "Write effective prompts for DeepSeek models"
+  brand_color: "#4A90D9"
