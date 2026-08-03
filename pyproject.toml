@@ -9,9 +9,9 @@ dependencies = []
 [dependency-groups]
 dev = [
   "agentskills-ci>=0.1.2",
-  "commitizen>=4.16.5",
+  "commitizen>=4.17.0",
   "mdlint>=0.2.0",
-  "prek>=0.4.10",
+  "prek>=0.4.11",
   "pytest>=9.1.1",
   "pytest-cov>=7.1.0",
   "ruff>=0.16.0",
