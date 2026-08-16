@@ -1,0 +1,4 @@
+interface:
+  display_name: "donsetch CLI"
+  short_description: "Web search, fetch, and crawl to clean markdown"
+  default_prompt: "Use $donsetch-cli to search the web, fetch a URL as clean markdown, or crawl a site into markdown."
