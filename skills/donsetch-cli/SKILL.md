@@ -28,15 +28,9 @@ metadata:
 Drive the `donsetch` CLI to do web research for an agent: `search`, `fetch`, and
 `crawl`. Each command returns clean markdown plus a machine-readable JSON
 envelope (`--json`), token-efficient by default, with bot-wall/PDF handling
-built in. The MCP server (`donsetch mcp`) exposes the same three tools over
-JSON-RPC; this skill uses the CLI form only.
+built in.
 
-Install if missing, then sanity-check the environment before relying on it:
-
-```bash
-command -v donsetch || npm install -f donsetch
-donsetch doctor
-```
+Assume installed, otherwise: `npm install -g donsetch` or ask user to install.
 
 ## When to Use
 
