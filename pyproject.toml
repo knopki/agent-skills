@@ -15,7 +15,7 @@ dev = [
   "pytest>=9.1.1",
   "pytest-cov>=7.1.0",
   "ruff>=0.16.0",
-  "tombi>=1.2.4",
+  "tombi>=1.5.0",
   "zuban>=0.9.0",
 ]
 
